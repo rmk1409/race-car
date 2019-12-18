@@ -20,6 +20,7 @@ public class Query {
     private String description;
     @Size(min = 10, max = 1000)
     private String link;
+    private int carQuantity;
     @CreationTimestamp
     private LocalDateTime createdDate;
 
@@ -58,6 +59,14 @@ public class Query {
         this.link = link;
     }
 
+    public int getCarQuantity() {
+        return carQuantity;
+    }
+
+    public void setCarQuantity(int carQuantity) {
+        this.carQuantity = carQuantity;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -81,6 +90,7 @@ public class Query {
                 + ", name='" + name + '\''
                 + ", description='" + description + '\''
                 + ", link='" + link + '\''
+                + ", car quantity='" + carQuantity + '\''
                 + '}';
     }
 }

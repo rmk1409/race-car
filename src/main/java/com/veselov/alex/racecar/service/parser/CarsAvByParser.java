@@ -1,4 +1,4 @@
-package com.veselov.alex.racecar.service;
+package com.veselov.alex.racecar.service.parser;
 
 import com.veselov.alex.racecar.data.dao.AutoRepository;
 import com.veselov.alex.racecar.data.dao.QueryRepository;
@@ -27,9 +27,6 @@ public class CarsAvByParser {
 
     public List<Auto> handlePagination(String startLink) {
         List<Auto> autos = new ArrayList<>();
-//        Optional<Query> query = this.queryRepository.findById(10001);
-//        LOGGER.info("Query -> {}", query.isPresent());
-//        String startLink = query.get().getLink();
         Connection connection = Jsoup.connect(startLink);
         Document document;
         try {

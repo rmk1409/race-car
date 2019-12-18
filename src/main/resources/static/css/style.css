@@ -3,3 +3,16 @@
     height: 134px;
     object-fit: cover
 }
+
+body {
+    background-color: #f5f5f5;
+    background-image: url("https://wallpapermemory.com/uploads/252/racing-race-cars-background-1080p-298837.jpg");
+}
+
+.footer-for-empty {
+    position: absolute;
+}
+
+.footer-with-result {
+    position: static;
+}
