@@ -12,33 +12,34 @@
     <title>Race or die</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/style.css" type="text/css"/>
 </head>
 <body>
 <div class="container">
     Hi, there!
-    <form action="/find/">
+    <form action="/find">
         Enter query <input type="text" name="query"/><br>
         <input type="submit">
     </form>
-    <table class="table table-striped">
-        <caption>Your Cars</caption>
+    <h4>Found ${cars.size()} cars.</h4>
+    <table class="table table-striped table-dark table-hover">
         <thead>
         <tr>
-            <th>IMG</th>
-            <th>YEAR</th>
+            <th></th>
             <th>Price</th>
-            <th>LINK</th>
+            <th>Year</th>
+            <th></th>
             <th>Description</th>
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${cars}" var="item">
+        <c:forEach items="${cars}" var="car">
             <tr>
-                <td><img src="${item.imgLink}" style="width: 180px; height: 134px; object-fit: cover"></td>
-                <td>${item.year}</td>
-                <td>${item.dollarPrice}</td>
-                <td><a href="${item.link}">${item.name}</a></td>
-                <td>${item.description}</td>
+                <td><img class="car-img" src="${car.imgLink}"></td>
+                <td>${car.dollarPrice}</td>
+                <td>${car.year}</td>
+                <td><a href="${car.link}">${car.name}</a></td>
+                <td>${car.description}</td>
             </tr>
         </c:forEach>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.js"
