@@ -20,6 +20,7 @@ public class Query {
     private String description;
     @Size(min = 10, max = 1000)
     private String link;
+
     private int carQuantity;
     @CreationTimestamp
     private LocalDateTime createdDate;

@@ -1,49 +1,56 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: roman.pogorelov
-  Date: 18.12.2019
-  Time: 13:49
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<html>
-<head>
-    <title>All Your Queries</title>
-</head>
-<body>
-<h4>Add new query</h4>
-<form action="/queries" method="post">
-    Input query<input type="text" name="query"><br>
-    Name<input type="text" name="name"><br>
-    Description<textarea type="text" name="description"></textarea><br>
-    <input type="submit">
-</form>
-<c:if test="${queries.size()>0}">
-    <table class="table table-striped table-dark table-hover">
-        <thead>
-        <tr>
-            <th>Found ${queries.size()} queries.</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Found cars</th>
-            <th></th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach items="${queries}" var="query">
+<%@include file="common/header.jspf" %>
+<main class="container">
+    <h4>Add new query</h4>
+    <form id="add-new-query" class="bg-dark text-white" action="/queries" method="post">
+        <div class="row">
+            <fieldset class="form-group col">
+                <label for="inputName">Name</label>
+                <input type="text" class="form-control" id="inputName" name="name"
+                       placeholder="Input short name for query"/>
+            </fieldset>
+            <fieldset class="form-group col">
+                <label for="inputQuery">Query</label>
+                <input type="text" class="form-control" id="inputQuery" name="link"
+                       placeholder="Copy and past your search query">
+            </fieldset>
+        </div>
+        <fieldset class="form-group">
+            <label for="inputDescription">Description</label>
+            <textarea class="form-control" id="inputDescription" name="description"
+                      placeholder="Write a few words about this query"></textarea>
+        </fieldset>
+        <fieldset class="form-group">
+            <label for="inputCarQuantity">Car Quantity</label>
+            <input type="number" class="form-control" id="inputCarQuantity" name="carQuantity"
+                   placeholder="How many cars in this query" value="15">
+        </fieldset>
+        <button type="submit" class="btn btn-success">Add</button>
+    </form>
+    <c:if test="${queries.size()>0}">
+        <table class="table table-striped table-dark table-hover">
+            <thead>
             <tr>
-                <td>${query.id}</td>
-                <td><a href="${pageContext.request.contextPath}/find?query=${query.link}">${query.name}</a></td>
-                <td>${query.description}</td>
-                <td>${query.carQuantity}</td>
-                <td>Edit</td>
-                <td>Delete</td>
+                <th></th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Cars</th>
+                <th></th>
+                <th></th>
             </tr>
-        </c:forEach>
-        </tbody>
-    </table>
-</c:if>
-</body>
-</html>
+            </thead>
+            <tbody>
+            <c:forEach items="${queries}" var="query">
+                <tr>
+                    <td>${query.id}</td>
+                    <td>${query.name}</td>
+                    <td>${query.description}</td>
+                    <td><a href="${pageContext.request.contextPath}/find?query=${query.link}">${query.carQuantity}</a></td>
+                    <td><a href="/update_query/${query.id}" class="btn btn-primary">Edit</a></td>
+                    <td><a href="/delete_query/${query.id}" class="btn btn-danger">Delete</a></td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+    </c:if>
+</main>
+<%@include file="common/footer.jspf" %>
