@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
 
 @Controller
@@ -30,12 +29,7 @@ public class QueryController {
 
     @PostMapping("/queries")
     public String addQueries(Query query) throws UnsupportedEncodingException {
-        String href = query.getHref();
-        LOGGER.info("href is -> {}", href);
-//        query.setHref(URLDecoder.decode(query.getHref(), "UTF-8"));
-        LOGGER.info("decode href is -> {}", URLDecoder.decode(href, "UTF-8"));
-        LOGGER.info("encode decoded href is -> {}", URLEncoder.encode(URLDecoder.decode(href, "UTF-8"), "UTF-8"));
-        LOGGER.info("encode href is -> {}", URLEncoder.encode(href, "UTF-8"));
+        query.setHref(URLEncoder.encode(query.getHref(), "UTF-8"));
         this.queryRepository.save(query);
         return "redirect:/queries";
     }
