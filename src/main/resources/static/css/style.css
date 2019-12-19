@@ -21,6 +21,7 @@ body {
     border-radius: 2%;
     opacity: 0.9;
 }
+
 #add-new-query:hover {
     opacity: 1;
 }

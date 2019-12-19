@@ -10,7 +10,7 @@
             </fieldset>
             <fieldset class="form-group col">
                 <label for="inputQuery">Query</label>
-                <input type="text" class="form-control" id="inputQuery" name="link"
+                <input type="text" class="form-control" id="inputQuery" name="href"
                        placeholder="Copy and past your search query">
             </fieldset>
         </div>
@@ -24,7 +24,7 @@
             <input type="number" class="form-control" id="inputCarQuantity" name="carQuantity"
                    placeholder="How many cars in this query" value="15">
         </fieldset>
-        <button type="submit" class="btn btn-success">Add</button>
+        <button type="submit" class="btn btn-success">Add query</button>
     </form>
     <c:if test="${queries.size()>0}">
         <table class="table table-striped table-dark table-hover">
@@ -44,7 +44,8 @@
                     <td>${query.id}</td>
                     <td>${query.name}</td>
                     <td>${query.description}</td>
-                    <td><a href="${pageContext.request.contextPath}/find?query=${query.link}">${query.carQuantity}</a></td>
+                    <td><a href="${pageContext.request.contextPath}/find?query=${query.href}">${query.carQuantity}</a>
+                    </td>
                     <td><a href="/update_query/${query.id}" class="btn btn-primary">Edit</a></td>
                     <td><a href="/delete_query/${query.id}" class="btn btn-danger">Delete</a></td>
                 </tr>

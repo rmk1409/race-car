@@ -14,16 +14,15 @@ public class Query {
     @Id
     @GeneratedValue
     private int id;
+    @CreationTimestamp
+    private LocalDateTime createdDate;
     @Size(min = 3)
     private String name;
     @Size(min = 10, max = 1000)
     private String description;
     @Size(min = 10, max = 1000)
-    private String link;
-
+    private String href;
     private int carQuantity;
-    @CreationTimestamp
-    private LocalDateTime createdDate;
 
     public Query() {
     }
@@ -52,12 +51,12 @@ public class Query {
         this.description = description;
     }
 
-    public String getLink() {
-        return link;
+    public String getHref() {
+        return href;
     }
 
-    public void setLink(String link) {
-        this.link = link;
+    public void setHref(String href) {
+        this.href = href;
     }
 
     public int getCarQuantity() {
@@ -90,7 +89,7 @@ public class Query {
         return "Query{" + "id=" + id
                 + ", name='" + name + '\''
                 + ", description='" + description + '\''
-                + ", link='" + link + '\''
+                + ", href='" + href + '\''
                 + ", car quantity='" + carQuantity + '\''
                 + '}';
     }

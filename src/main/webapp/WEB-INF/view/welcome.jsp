@@ -1,4 +1,4 @@
-<%@include file="common/header.jspf"%>
+<%@include file="common/header.jspf" %>
 <main class="container">
     <h1 class="mt-5">We'll find your race car.</h1>
     <p>
@@ -18,10 +18,10 @@
             <tbody>
             <c:forEach items="${cars}" var="car">
                 <tr>
-                    <td><img class="car-img" src="${car.imgLink}"></td>
-                    <td>${car.dollarPrice}</td>
+                    <td><img alt="Probably you have slow internet connection, reload the page" class="car-img" src="${car.imgSrc}"></td>
+                    <td>${car.price}</td>
                     <td>${car.year}</td>
-                    <td><a href="${car.link}">${car.name}</a></td>
+                    <td><a href="${car.href}">${car.name}</a></td>
                     <td>${car.description}</td>
                 </tr>
             </c:forEach>
@@ -29,4 +29,4 @@
         </table>
     </c:if>
 </main>
-<%@include file="common/footer.jspf"%>
+<%@include file="common/footer.jspf" %>

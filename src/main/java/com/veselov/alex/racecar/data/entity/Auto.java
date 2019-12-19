@@ -10,22 +10,22 @@ public class Auto {
     @Id
     @GeneratedValue
     private int id;
-    private String imgLink;
+    private String imgSrc;
     private String name;
     private String description;
-    private String link;
-    private Integer dollarPrice;
+    private String href;
+    private Integer price;
     private Integer year;
 
     public Auto() {
     }
 
-    public Auto(String imgLink, String name, String description, String link, Integer dollarPrice, Integer year) {
-        this.imgLink = imgLink;
+    public Auto(String imgSrc, String name, String description, String href, Integer price, Integer year) {
+        this.imgSrc = imgSrc;
         this.name = name;
         this.description = description;
-        this.link = link;
-        this.dollarPrice = dollarPrice;
+        this.href = href;
+        this.price = price;
         this.year = year;
     }
 
@@ -37,12 +37,12 @@ public class Auto {
         this.id = id;
     }
 
-    public String getImgLink() {
-        return imgLink;
+    public String getImgSrc() {
+        return imgSrc;
     }
 
-    public void setImgLink(String imgLink) {
-        this.imgLink = imgLink;
+    public void setImgSrc(String imgSrc) {
+        this.imgSrc = imgSrc;
     }
 
     public String getName() {
@@ -61,12 +61,12 @@ public class Auto {
         this.description = description;
     }
 
-    public Integer getDollarPrice() {
-        return dollarPrice;
+    public Integer getPrice() {
+        return price;
     }
 
-    public void setDollarPrice(Integer dollarPrice) {
-        this.dollarPrice = dollarPrice;
+    public void setPrice(Integer price) {
+        this.price = price;
     }
 
     public Integer getYear() {
@@ -77,12 +77,12 @@ public class Auto {
         this.year = year;
     }
 
-    public String getLink() {
-        return link;
+    public String getHref() {
+        return href;
     }
 
-    public void setLink(String link) {
-        this.link = link;
+    public void setHref(String href) {
+        this.href = href;
     }
 
     @Override
@@ -105,11 +105,11 @@ public class Auto {
     @Override
     public String toString() {
         return "Auto{" + "id=" + id
-                + ", imgLink='" + imgLink + '\''
+                + ", imgSrc='" + imgSrc + '\''
                 + ", name='" + name + '\''
                 + ", description='" + description + '\''
-                + ", link='" + link + '\''
-                + ", dollarPrice=" + dollarPrice
+                + ", href='" + href + '\''
+                + ", price=" + price
                 + ", year=" + year
                 + '}';
     }

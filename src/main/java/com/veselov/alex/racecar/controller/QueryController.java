@@ -2,36 +2,24 @@ package com.veselov.alex.racecar.controller;
 
 import com.veselov.alex.racecar.data.dao.QueryRepository;
 import com.veselov.alex.racecar.data.entity.Query;
-import com.veselov.alex.racecar.service.parser.CarsAvByParser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 
 @Controller
-public class RaceOrDieController {
-    @Autowired
-    private CarsAvByParser parser;
+public class QueryController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(QueryController.class);
     @Autowired
     private QueryRepository queryRepository;
-
-    @GetMapping("/")
-    public String welcome() {
-        return "welcome";
-    }
-
-    @GetMapping("/find")
-    public ModelAndView findCars(@RequestParam String query) {
-        ModelAndView view = new ModelAndView("welcome");
-        view.addObject("cars", parser.handlePagination(query));
-        return view;
-    }
 
     @GetMapping("/queries")
     public ModelAndView showQueries() {
@@ -42,7 +30,12 @@ public class RaceOrDieController {
 
     @PostMapping("/queries")
     public String addQueries(Query query) throws UnsupportedEncodingException {
-        query.setLink(URLDecoder.decode(query.getLink(), "UTF-8"));
+        String href = query.getHref();
+        LOGGER.info("href is -> {}", href);
+//        query.setHref(URLDecoder.decode(query.getHref(), "UTF-8"));
+        LOGGER.info("decode href is -> {}", URLDecoder.decode(href, "UTF-8"));
+        LOGGER.info("encode decoded href is -> {}", URLEncoder.encode(URLDecoder.decode(href, "UTF-8"), "UTF-8"));
+        LOGGER.info("encode href is -> {}", URLEncoder.encode(href, "UTF-8"));
         this.queryRepository.save(query);
         return "redirect:/queries";
     }

@@ -1,4 +1,4 @@
-<footer class="page-footer font-small fixed-bottom bg-dark text-white <c:choose><c:when test='${cars.size()>3}'>footer-with-result</c:when><c:otherwise>footer-for-empty</c:otherwise></c:choose>">
+<footer class="page-footer font-small fixed-bottom bg-dark text-white ${cars.size()>3?'footer-with-result':'footer-for-empty'}">
     <div class="footer-copyright text-center py-3"> © 2019 Copyright:
         <a href="https://axamit.com"> Axamit.com</a>
     </div>
