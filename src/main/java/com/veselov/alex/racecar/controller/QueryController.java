@@ -33,7 +33,6 @@ public class QueryController {
     @PostMapping("/queries")
     public String addQueries(Query query) throws UnsupportedEncodingException {
         query.setHref(URLEncoder.encode(query.getHref(), "UTF-8"));
-        query.setCarQuantity(this.parser.getCarQuantity(query.getHref(), true));
         this.repository.save(query);
         return "redirect:/queries";
     }

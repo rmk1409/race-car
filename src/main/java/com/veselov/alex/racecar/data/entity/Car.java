@@ -1,11 +1,6 @@
 package com.veselov.alex.racecar.data.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
@@ -16,12 +11,12 @@ public class Car {
     private String imgSrc;
     private String name;
     private String description;
+    @Column(unique = true)
     private String href;
     private Integer price;
     private Integer year;
-
-    @ManyToMany(mappedBy = "cars")
-    private List<Query> queries = new ArrayList<>();
+    @ManyToOne
+    private SourceSite sourceSite;
 
     public Car() {
     }
@@ -89,6 +84,14 @@ public class Car {
 
     public void setHref(String href) {
         this.href = href;
+    }
+
+    public SourceSite getSourceSite() {
+        return sourceSite;
+    }
+
+    public void setSourceSite(SourceSite sourceSite) {
+        this.sourceSite = sourceSite;
     }
 
     @Override

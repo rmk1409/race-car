@@ -5,8 +5,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -21,17 +19,10 @@ public class Query {
     @Size(min = 10, max = 1000)
     private String description;
     @Size(min = 10, max = 1000)
+    @Column(unique = true)
     private String href;
-    @Column(columnDefinition = "integer default 0")
-    private int carQuantity;
-
-    @ManyToMany
-    @JoinTable(
-            name = "query_car",
-            joinColumns = @JoinColumn(name = "query_id"),
-            inverseJoinColumns = @JoinColumn(name = "car_id")
-    )
-    private List<Car> cars = new ArrayList<>();
+    @ManyToOne
+    private SourceSite sourceSite;
 
     public Query() {
     }
@@ -68,20 +59,20 @@ public class Query {
         this.href = href;
     }
 
-    public int getCarQuantity() {
-        return carQuantity;
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
     }
 
-    public void setCarQuantity(int carQuantity) {
-        this.carQuantity = carQuantity;
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
     }
 
-    public List<Car> getCars() {
-        return cars;
+    public SourceSite getSourceSite() {
+        return sourceSite;
     }
 
-    public void setCars(List<Car> cars) {
-        this.cars = cars;
+    public void setSourceSite(SourceSite sourceSite) {
+        this.sourceSite = sourceSite;
     }
 
     @Override
@@ -107,7 +98,6 @@ public class Query {
                 + ", name='" + name + '\''
                 + ", description='" + description + '\''
                 + ", href='" + href + '\''
-                + ", car quantity='" + carQuantity + '\''
                 + '}';
     }
 }
