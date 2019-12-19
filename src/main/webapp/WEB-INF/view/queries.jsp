@@ -38,9 +38,13 @@
                     <td>${query.id}</td>
                     <td>${query.name}</td>
                     <td>${query.description}</td>
-                    <td><a href="${pageContext.request.contextPath}/find?query=${query.href}">${query.carQuantity}</a>
+                    <td><a href="${pageContext.request.contextPath}/find?query=${query.href}"
+                           class="btn btn-success btn-sm">Look up</a></td>
+                    <td>
+                            <%-- /update_query/${query.id}--%>
+                        <button class="edit-button btn btn-primary btn-sm">Edit</button>
+                        | <a href="/delete_query/${query.id}" class="btn btn-danger btn-sm">Delete</a>
                     </td>
-                    <td><a href="/update_query/${query.id}" class="btn btn-primary btn-sm">Edit</a> | <a href="/delete_query/${query.id}" class="btn btn-danger btn-sm">Delete</a></td>
                 </tr>
             </c:forEach>
             </tbody>

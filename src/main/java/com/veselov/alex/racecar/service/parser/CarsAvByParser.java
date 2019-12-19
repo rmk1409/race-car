@@ -1,6 +1,5 @@
 package com.veselov.alex.racecar.service.parser;
 
-import com.veselov.alex.racecar.data.dao.AutoRepository;
 import com.veselov.alex.racecar.data.entity.Car;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -8,7 +7,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -24,9 +22,6 @@ import java.util.List;
 public class CarsAvByParser {
     private static final Logger LOGGER = LoggerFactory.getLogger(CarsAvByParser.class);
 
-    @Autowired
-    private AutoRepository repository;
-
     /**
      * It parses query and it finds cars.
      *
@@ -41,7 +36,6 @@ public class CarsAvByParser {
             document = connection.get();
             this.handlePagination(startHRef, cars, document);
             LOGGER.info("Parsed {} cars", cars.size());
-            repository.saveAll(cars);
         } catch (IOException e) {
             LOGGER.error(e.getMessage(), e);
         }
