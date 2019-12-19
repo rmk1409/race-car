@@ -1,7 +1,7 @@
 package com.veselov.alex.racecar.service.parser;
 
 import com.veselov.alex.racecar.data.dao.AutoRepository;
-import com.veselov.alex.racecar.data.entity.Auto;
+import com.veselov.alex.racecar.data.entity.Car;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -26,6 +26,27 @@ public class CarsAvByParser {
 
     @Autowired
     private AutoRepository repository;
+
+    /**
+     * It parses query and it finds cars.
+     *
+     * @param startHRef
+     * @return
+     */
+    public List<Car> parseSite(String startHRef) {
+        List<Car> cars = new ArrayList<>();
+        Connection connection = Jsoup.connect(startHRef);
+        Document document;
+        try {
+            document = connection.get();
+            this.handlePagination(startHRef, cars, document);
+            LOGGER.info("Parsed {} cars", cars.size());
+            repository.saveAll(cars);
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage(), e);
+        }
+        return cars;
+    }
 
     /**
      * It returns quantity of cars for the href
@@ -70,35 +91,14 @@ public class CarsAvByParser {
     }
 
     /**
-     * It parses query and it finds cars.
-     *
-     * @param startHRef
-     * @return
-     */
-    public List<Auto> parseSite(String startHRef) {
-        List<Auto> autos = new ArrayList<>();
-        Connection connection = Jsoup.connect(startHRef);
-        Document document;
-        try {
-            document = connection.get();
-            this.handlePagination(startHRef, autos, document);
-            LOGGER.info("Parsed {} cars", autos.size());
-            repository.saveAll(autos);
-        } catch (IOException e) {
-            LOGGER.error(e.getMessage(), e);
-        }
-        return autos;
-    }
-
-    /**
      * It handles pagination for this query.
      *
      * @param startHRef
-     * @param autos
+     * @param cars
      * @param document
      * @throws IOException
      */
-    private void handlePagination(String startHRef, List<Auto> autos, Document document) throws IOException {
+    private void handlePagination(String startHRef, List<Car> cars, Document document) throws IOException {
         int pageQuantity = getPageQuantity(startHRef);
         for (int i = 1; i <= pageQuantity; i++) {
             Elements select = document.select(".listing-item");
@@ -110,7 +110,7 @@ public class CarsAvByParser {
                 String link = body.select(".listing-item-title a").attr("href");
                 Integer price = Integer.parseInt(body.select(".listing-item-price small").text().replaceAll("\\s", ""));
                 Integer year = Integer.parseInt(body.select(".listing-item-desc span").text().substring(0, 4));
-                autos.add(new Auto(imgSrc, name, description, link, price, year));
+                cars.add(new Car(imgSrc, name, description, link, price, year));
             });
             document = Jsoup.connect(startHRef.replace("?", String.format("/page/%d?", i + 1))).get();
         }

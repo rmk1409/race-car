@@ -3,10 +3,13 @@ package com.veselov.alex.racecar.data.entity;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class Auto {
+public class Car {
     @Id
     @GeneratedValue
     private int id;
@@ -17,10 +20,13 @@ public class Auto {
     private Integer price;
     private Integer year;
 
-    public Auto() {
+    @ManyToMany(mappedBy = "cars")
+    private List<Query> queries = new ArrayList<>();
+
+    public Car() {
     }
 
-    public Auto(String imgSrc, String name, String description, String href, Integer price, Integer year) {
+    public Car(String imgSrc, String name, String description, String href, Integer price, Integer year) {
         this.imgSrc = imgSrc;
         this.name = name;
         this.description = description;
@@ -93,8 +99,8 @@ public class Auto {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Auto auto = (Auto) o;
-        return id == auto.id;
+        Car car = (Car) o;
+        return id == car.id;
     }
 
     @Override

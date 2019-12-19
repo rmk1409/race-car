@@ -2,12 +2,11 @@ package com.veselov.alex.racecar.data.entity;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -25,6 +24,14 @@ public class Query {
     private String href;
     @Column(columnDefinition = "integer default 0")
     private int carQuantity;
+
+    @ManyToMany
+    @JoinTable(
+            name = "query_car",
+            joinColumns = @JoinColumn(name = "query_id"),
+            inverseJoinColumns = @JoinColumn(name = "car_id")
+    )
+    private List<Car> cars = new ArrayList<>();
 
     public Query() {
     }
@@ -67,6 +74,14 @@ public class Query {
 
     public void setCarQuantity(int carQuantity) {
         this.carQuantity = carQuantity;
+    }
+
+    public List<Car> getCars() {
+        return cars;
+    }
+
+    public void setCars(List<Car> cars) {
+        this.cars = cars;
     }
 
     @Override

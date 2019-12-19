@@ -29,8 +29,7 @@
                 <th>Name</th>
                 <th>Description</th>
                 <th>Cars</th>
-                <th></th>
-                <th></th>
+                <th>Actions</th>
             </tr>
             </thead>
             <tbody>
@@ -41,8 +40,7 @@
                     <td>${query.description}</td>
                     <td><a href="${pageContext.request.contextPath}/find?query=${query.href}">${query.carQuantity}</a>
                     </td>
-                    <td><a href="/update_query/${query.id}" class="btn btn-primary">Edit</a></td>
-                    <td><a href="/delete_query/${query.id}" class="btn btn-danger">Delete</a></td>
+                    <td><a href="/update_query/${query.id}" class="btn btn-primary btn-sm">Edit</a> | <a href="/delete_query/${query.id}" class="btn btn-danger btn-sm">Delete</a></td>
                 </tr>
             </c:forEach>
             </tbody>
