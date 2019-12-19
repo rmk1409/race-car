@@ -2,6 +2,7 @@ package com.veselov.alex.racecar.data.entity;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -22,6 +23,7 @@ public class Query {
     private String description;
     @Size(min = 10, max = 1000)
     private String href;
+    @Column(columnDefinition = "integer default 0")
     private int carQuantity;
 
     public Query() {

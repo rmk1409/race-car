@@ -19,11 +19,6 @@
             <textarea class="form-control" id="inputDescription" name="description"
                       placeholder="Write a few words about this query"></textarea>
         </fieldset>
-        <fieldset class="form-group">
-            <label for="inputCarQuantity">Car Quantity</label>
-            <input type="number" class="form-control" id="inputCarQuantity" name="carQuantity"
-                   placeholder="How many cars in this query" value="15">
-        </fieldset>
         <button type="submit" class="btn btn-success">Add query</button>
     </form>
     <c:if test="${queries.size()>0}">

@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +28,48 @@ public class CarsAvByParser {
     private AutoRepository repository;
 
     /**
+     * It returns quantity of cars for the href
+     *
+     * @param href
+     * @param decode
+     * @return
+     */
+    public int getCarQuantity(String href, boolean decode) {
+        int result = 0;
+        href = getProperUrl(href, decode);
+        try {
+            LOGGER.info("Will parse this url -> {}", href);
+            result = Integer.parseInt(
+                    Jsoup.connect(href)
+                            .get()
+                            .select("header .heading-title")
+                            .text()
+                            .replaceAll("\\D+", "")
+            );
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage(), e);
+        }
+        LOGGER.info("Found {} cars to parse", result);
+        return result;
+    }
+
+    /**
+     * It decodes href if it need it.
+     *
+     * @param href
+     * @param decode
+     * @return
+     */
+    private String getProperUrl(String href, boolean decode) {
+        try {
+            href = decode ? URLDecoder.decode(href, "UTF-8") : href;
+        } catch (UnsupportedEncodingException e) {
+            LOGGER.error(e.getMessage(), e);
+        }
+        return href;
+    }
+
+    /**
      * It parses query and it finds cars.
      *
      * @param startHRef
@@ -38,7 +82,7 @@ public class CarsAvByParser {
         try {
             document = connection.get();
             this.handlePagination(startHRef, autos, document);
-            LOGGER.info("Found {} cars", autos.size());
+            LOGGER.info("Parsed {} cars", autos.size());
             repository.saveAll(autos);
         } catch (IOException e) {
             LOGGER.error(e.getMessage(), e);
@@ -55,7 +99,7 @@ public class CarsAvByParser {
      * @throws IOException
      */
     private void handlePagination(String startHRef, List<Auto> autos, Document document) throws IOException {
-        int pageQuantity = getPageQuantity(document);
+        int pageQuantity = getPageQuantity(startHRef);
         for (int i = 1; i <= pageQuantity; i++) {
             Elements select = document.select(".listing-item");
             select.forEach(car -> {
@@ -75,12 +119,11 @@ public class CarsAvByParser {
     /**
      * It gets quantity of pages.
      *
-     * @param document
+     * @param href
      * @return
      */
-    private int getPageQuantity(Document document) {
+    private int getPageQuantity(String href) {
         final double shownCarsOnOnePage = 25.0;
-        String text = document.select("header .heading-title").text();
-        return (int) Math.ceil(Integer.parseInt(text.replaceAll("\\D+", "")) / shownCarsOnOnePage);
+        return (int) Math.ceil(this.getCarQuantity(href, false) / shownCarsOnOnePage);
     }
 }
