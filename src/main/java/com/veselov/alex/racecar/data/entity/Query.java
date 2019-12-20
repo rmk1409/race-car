@@ -4,7 +4,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -13,7 +13,7 @@ public class Query {
     @GeneratedValue
     private int id;
     @CreationTimestamp
-    private LocalDateTime createdDate;
+    private Date createdDate;
     @Size(min = 3)
     private String name;
     @Size(min = 10, max = 1000)
@@ -59,11 +59,11 @@ public class Query {
         this.href = href;
     }
 
-    public LocalDateTime getCreatedDate() {
+    public Date getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(LocalDateTime createdDate) {
+    public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
     }
 

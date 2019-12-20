@@ -28,7 +28,7 @@
                 <th></th>
                 <th>Name</th>
                 <th>Description</th>
-                <th>Cars</th>
+                <th>Created</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -38,8 +38,7 @@
                     <td>${query.id}</td>
                     <td>${query.name}</td>
                     <td>${query.description}</td>
-                    <td><a href="${pageContext.request.contextPath}/find?query=${query.href}"
-                           class="btn btn-success btn-sm">Look up</a></td>
+                    <td><fmt:formatDate pattern="dd.MM.yyyy, HH:mm" value="${query.createdDate}"/></td>
                     <td>
                             <%-- /update_query/${query.id}--%>
                         <button class="edit-button btn btn-primary btn-sm">Edit</button>
