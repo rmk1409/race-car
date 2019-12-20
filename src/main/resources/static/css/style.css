@@ -26,10 +26,20 @@ header {
     opacity: 0.9;
 }
 
+.highlight {
+    box-shadow: 0 0 3px 3px;
+    opacity: 1 !important;
+}
+
 #add-new-query:hover {
     opacity: 1;
 }
 
 li.nav-item:hover {
     background: black;
+}
+
+#cancel-save-query-button,
+#save-query-button {
+    display: none;
 }
