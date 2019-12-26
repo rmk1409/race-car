@@ -1,6 +1,7 @@
 package com.veselov.alex.racecar.data.entity;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -12,8 +13,11 @@ public class Query {
     @Id
     @GeneratedValue
     private int id;
+    @Column(updatable = false)
     @CreationTimestamp
     private Date createdDate;
+    @UpdateTimestamp
+    private Date updatedDate;
     @Size(min = 3)
     private String name;
     @Size(min = 10, max = 1000)
@@ -63,16 +67,20 @@ public class Query {
         return createdDate;
     }
 
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
     public SourceSite getSourceSite() {
         return sourceSite;
     }
 
     public void setSourceSite(SourceSite sourceSite) {
         this.sourceSite = sourceSite;
+    }
+
+    public Date getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public void setUpdatedDate(Date updatedDate) {
+        this.updatedDate = updatedDate;
     }
 
     @Override

@@ -20,18 +20,18 @@ header {
     position: static;
 }
 
-#add-new-query {
+#add-new-query-form {
     padding: 20px;
     border-radius: 2%;
     opacity: 0.9;
 }
 
 .highlight {
-    box-shadow: 0 0 3px 3px;
+    box-shadow: 0 0 10px 5px;
     opacity: 1 !important;
 }
 
-#add-new-query:hover {
+#add-new-query-form:hover {
     opacity: 1;
 }
 

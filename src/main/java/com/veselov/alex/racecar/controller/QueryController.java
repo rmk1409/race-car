@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.List;
 
 @Controller
 public class QueryController {
@@ -26,7 +27,17 @@ public class QueryController {
     @GetMapping("/queries")
     public ModelAndView showQueries() {
         ModelAndView view = new ModelAndView("/queries");
-        view.addObject("queries", this.repository.findAll());
+        List<Query> queries = this.repository.findAll();
+        queries.forEach(
+                i -> {
+                    try {
+                        i.setHref(URLEncoder.encode(i.getHref(), "UTF-8"));
+                    } catch (UnsupportedEncodingException e) {
+                        LOGGER.error("There is an exception -> {}, {}", e, e.getMessage());
+                    }
+                }
+        );
+        view.addObject("queries", queries);
         return view;
     }
 
