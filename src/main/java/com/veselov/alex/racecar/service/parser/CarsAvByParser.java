@@ -1,27 +1,24 @@
 package com.veselov.alex.racecar.service.parser;
 
 import com.veselov.alex.racecar.data.entity.Car;
+import com.veselov.alex.racecar.data.entity.SourceSite;
+import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * It parses wwww.carsav.by site
  */
+@Slf4j
 @Service
 public class CarsAvByParser {
-    private static final Logger LOGGER = LoggerFactory.getLogger(CarsAvByParser.class);
-
     /**
      * It parses query and it finds cars.
      *
@@ -35,9 +32,9 @@ public class CarsAvByParser {
         try {
             document = connection.get();
             this.handlePagination(startHRef, cars, document);
-            LOGGER.info("Parsed {} cars", cars.size());
+            log.info("Parsed {} of cars", cars.size());
         } catch (IOException e) {
-            LOGGER.error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
         }
         return cars;
     }
@@ -46,14 +43,12 @@ public class CarsAvByParser {
      * It returns quantity of cars for the href
      *
      * @param href
-     * @param decode
      * @return
      */
-    public int getCarQuantity(String href, boolean decode) {
+    public int getCarQuantity(String href) {
         int result = 0;
-        href = getProperUrl(href, decode);
         try {
-            LOGGER.info("Will parse this url -> {}", href);
+            log.info("Will parse this url -> {}", href);
             result = Integer.parseInt(
                     Jsoup.connect(href)
                             .get()
@@ -62,32 +57,16 @@ public class CarsAvByParser {
                             .replaceAll("\\D+", "")
             );
         } catch (IOException e) {
-            LOGGER.error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
         }
-        LOGGER.info("Found {} cars to parse", result);
+        log.info("Found {} cars to parse", result);
         return result;
-    }
-
-    /**
-     * It decodes href if it need it.
-     *
-     * @param href
-     * @param decode
-     * @return
-     */
-    private String getProperUrl(String href, boolean decode) {
-        try {
-            href = decode ? URLDecoder.decode(href, "UTF-8") : href;
-        } catch (UnsupportedEncodingException e) {
-            LOGGER.error(e.getMessage(), e);
-        }
-        return href;
     }
 
     /**
      * It handles pagination for this query.
      *
-     * @param startHRef
+     * @param startHRef 1st page of pagination to parse
      * @param cars
      * @param document
      * @throws IOException
@@ -104,7 +83,8 @@ public class CarsAvByParser {
                 String link = body.select(".listing-item-title a").attr("href");
                 Integer price = Integer.parseInt(body.select(".listing-item-price small").text().replaceAll("\\s", ""));
                 Integer year = Integer.parseInt(body.select(".listing-item-desc span").text().substring(0, 4));
-                cars.add(new Car(imgSrc, name, description, link, price, year));
+                SourceSite sourceSite = SourceSite.builder().id(1001).build();
+                cars.add(new Car(0, imgSrc, name, description, link, price, year, sourceSite));
             });
             document = Jsoup.connect(startHRef.replace("?", String.format("/page/%d?", i + 1))).get();
         }
@@ -118,6 +98,6 @@ public class CarsAvByParser {
      */
     private int getPageQuantity(String href) {
         final double shownCarsOnOnePage = 25.0;
-        return (int) Math.ceil(this.getCarQuantity(href, false) / shownCarsOnOnePage);
+        return (int) Math.ceil(this.getCarQuantity(href) / shownCarsOnOnePage);
     }
 }

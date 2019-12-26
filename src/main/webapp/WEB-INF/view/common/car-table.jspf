@@ -15,7 +15,6 @@
                 <td><img alt="Probably you have slow internet connection, reload the page" class="car-img" src="${car.imgSrc}"></td>
                 <td><a href="${car.href}">${car.name}</a></td>
                 <td>
-                    <fmt:setLocale value = "en_US"/>
                     <fmt:formatNumber value = "${car.price}" type = "currency"/></td>
                 <td>${car.year}</td>
                 <td>${car.description}</td>

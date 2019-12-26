@@ -1,15 +1,30 @@
-.car-img {
-    width: 180px;
-    height: 134px;
-    object-fit: cover
+header {
+    margin-bottom: 40px;
 }
 
 body {
     background-image: url("https://wallpapermemory.com/uploads/252/racing-race-cars-background-1080p-298837.jpg");
 }
 
-header {
-    margin-bottom: 40px;
+#add-new-query-form {
+    padding: 20px;
+    border-radius: 2%;
+    opacity: 0.9;
+}
+
+#add-new-query-form:hover {
+    opacity: 1;
+}
+
+#cancel-save-query-button,
+#save-query-button {
+    display: none;
+}
+
+.car-img {
+    width: 180px;
+    height: 134px;
+    object-fit: cover
 }
 
 .footer-for-empty {
@@ -20,26 +35,15 @@ header {
     position: static;
 }
 
-#add-new-query-form {
-    padding: 20px;
-    border-radius: 2%;
-    opacity: 0.9;
-}
-
 .highlight {
     box-shadow: 0 0 10px 5px;
     opacity: 1 !important;
-}
-
-#add-new-query-form:hover {
-    opacity: 1;
 }
 
 li.nav-item:hover {
     background: black;
 }
 
-#cancel-save-query-button,
-#save-query-button {
-    display: none;
+.look-up-form {
+    display: inline;
 }

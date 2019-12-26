@@ -1,3 +1,4 @@
+</main>
 <footer class="page-footer font-small fixed-bottom bg-dark text-white ${cars.size()>4?'footer-with-result':'footer-for-empty'}">
     <div class="footer-copyright text-center py-3"> © 2019 Copyright:
         <a href="https://axamit.com"> Axamit.com</a>
