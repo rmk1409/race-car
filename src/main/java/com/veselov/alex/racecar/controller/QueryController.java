@@ -31,7 +31,7 @@ public class QueryController {
     }
 
     @PostMapping("/queries")
-    public String addQueries(@Valid @ModelAttribute("query") Query query, BindingResult result, Model model) {
+    public String addQueries(@Valid @ModelAttribute("query") Query query, BindingResult result) {
         String view;
         log.info("Adding or updating a query -> {}", query);
         if (result.hasErrors()) {
