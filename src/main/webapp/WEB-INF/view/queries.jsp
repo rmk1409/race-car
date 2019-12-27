@@ -1,34 +1,36 @@
 <%@include file="common/header.jspf" %>
 <%@ page import="java.net.URLDecoder" %>
 <h4>Add new query</h4>
-<form id="add-new-query-form" class="bg-dark text-white" action="/queries" method="post">
+<form:form id="add-new-query-form" class="bg-dark text-white" action="/queries" method="post" modelAttribute="query">
     <div class="row">
         <input type="hidden" id="query-id" name="id" value="0"/>
         <fieldset class="form-group col">
             <label for="inputName">Name</label>
-            <input type="text" class="form-control" id="inputName" name="name"
-                   placeholder="Input short name for query"/>
+            <form:input type="text" class="form-control" id="inputName" name="name"
+                        placeholder="Input short name for query" path="name"/>
+            <small><form:errors path="name" cssClass="errormsg"/></small>
         </fieldset>
         <fieldset class="form-group col">
             <label for="inputQuery">Query</label>
-            <input type="text" class="form-control" id="inputQuery" name="href"
-                   placeholder="Copy and past your search query">
+            <form:input type="text" class="form-control" id="inputQuery" name="href"
+                        placeholder="Copy and past your search query" path="href"/>
+            <small><form:errors path="href" cssClass="errormsg"/></small>
         </fieldset>
     </div>
     <fieldset class="form-group">
         <label for="inputDescription">Description</label>
-        <textarea class="form-control" id="inputDescription" name="description"
-                  placeholder="Write a few words about this query"></textarea>
+        <form:textarea class="form-control" id="inputDescription" name="description"
+                       placeholder="Write a few words about this query" path="description"/>
+        <small><form:errors path="description" cssClass="errormsg"/></small>
     </fieldset>
     <button id="add-new-query-button" type="submit" class="btn btn-success">Add query</button>
     <button id="save-query-button" type="submit" class="btn btn-success">Save</button>
     <button id="cancel-save-query-button" type="reset" class="btn btn-success">Cancel</button>
-</form>
+</form:form>
 <c:if test="${queries.size()>0}">
     <table class="table table-striped table-dark table-hover">
         <thead>
         <tr>
-                <%--                <th hidden></th>--%>
             <th>Name</th>
             <th>Description</th>
             <th>Created</th>

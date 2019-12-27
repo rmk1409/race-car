@@ -6,6 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
@@ -25,11 +26,14 @@ public class Query {
     Date createdDate;
     @UpdateTimestamp
     Date updatedDate;
+    @NotBlank(message = "Name is mandatory")
     String name;
     @Size(max = 1000)
+    @NotBlank(message = "Description is mandatory")
     String description;
     @Size(max = 1000)
     @Column(unique = true)
+    @NotBlank(message = "Query is mandatory")
     String href;
     @ManyToOne
     SourceSite sourceSite;

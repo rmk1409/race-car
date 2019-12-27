@@ -6,10 +6,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Slf4j
@@ -23,14 +26,21 @@ public class QueryController {
         log.info("Finding all queries");
         List<Query> queries = this.service.findAll();
         model.addAttribute("queries", queries);
+        model.addAttribute("query", new Query());
         return "queries";
     }
 
     @PostMapping("/queries")
-    public String addQueries(Query query) {
+    public String addQueries(@Valid @ModelAttribute("query") Query query, BindingResult result, Model model) {
+        String view;
         log.info("Adding or updating a query -> {}", query);
-        this.service.save(query);
-        return "redirect:/queries";
+        if (result.hasErrors()) {
+            view = "queries";
+        } else {
+            this.service.save(query);
+            view = "redirect:/queries";
+        }
+        return view;
     }
 
     @GetMapping("/delete_query/{id}")

@@ -12,6 +12,10 @@ body {
     opacity: 0.9;
 }
 
+#add-new-query-form small {
+    color: #41e80a;
+}
+
 #add-new-query-form:hover {
     opacity: 1;
 }
