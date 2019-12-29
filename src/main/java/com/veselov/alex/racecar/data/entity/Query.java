@@ -1,5 +1,6 @@
 package com.veselov.alex.racecar.data.entity;
 
+import com.veselov.alex.racecar.service.validation.CheckSite;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CreationTimestamp;
@@ -32,6 +33,7 @@ public class Query {
     String description;
     @NotBlank(message = "Query is mandatory")
     @URL(message = "Must be a valid URL")
+    @CheckSite
     @Column(unique = true, length = 1000)
     String href;
     @ManyToOne
