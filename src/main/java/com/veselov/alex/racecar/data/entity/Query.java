@@ -4,6 +4,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.validator.constraints.URL;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -33,6 +34,7 @@ public class Query {
     String description;
     @Size(max = 1000)
     @NotBlank(message = "Query is mandatory")
+    @URL(message = "Must be a valid URL")
     @Column(unique = true)
     String href;
     @ManyToOne
