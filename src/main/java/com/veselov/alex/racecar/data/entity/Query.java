@@ -8,7 +8,6 @@ import org.hibernate.validator.constraints.URL;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Data
@@ -29,13 +28,11 @@ public class Query {
     Date updatedDate;
     @NotBlank(message = "Name is mandatory")
     String name;
-    @Size(max = 1000)
     @NotBlank(message = "Description is mandatory")
     String description;
-    @Size(max = 1000)
     @NotBlank(message = "Query is mandatory")
     @URL(message = "Must be a valid URL")
-    @Column(unique = true)
+    @Column(unique = true, length = 1000)
     String href;
     @ManyToOne
     SourceSite sourceSite;

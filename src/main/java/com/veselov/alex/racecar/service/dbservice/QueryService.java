@@ -1,4 +1,4 @@
-package com.veselov.alex.racecar.service;
+package com.veselov.alex.racecar.service.dbservice;
 
 import com.veselov.alex.racecar.data.dao.QueryRepository;
 import com.veselov.alex.racecar.data.entity.Query;

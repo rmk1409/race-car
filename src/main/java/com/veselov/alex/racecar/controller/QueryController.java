@@ -1,7 +1,7 @@
 package com.veselov.alex.racecar.controller;
 
 import com.veselov.alex.racecar.data.entity.Query;
-import com.veselov.alex.racecar.service.QueryService;
+import com.veselov.alex.racecar.service.dbservice.QueryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
