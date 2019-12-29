@@ -8,20 +8,20 @@
             <label for="inputName">Name</label>
             <form:input type="text" class="form-control" id="inputName" name="name"
                         placeholder="Input short name for query" path="name"/>
-            <small><form:errors path="name" cssClass="errormsg"/></small>
+            <small><form:errors path="name" cssClass="error-msg"/></small>
         </fieldset>
         <fieldset class="form-group col">
             <label for="inputQuery">Query</label>
             <form:input type="text" class="form-control" id="inputQuery" name="href"
                         placeholder="Copy and past your search query" path="href"/>
-            <small><form:errors path="href" cssClass="errormsg"/></small>
+            <small><form:errors path="href" cssClass="error-msg"/></small>
         </fieldset>
     </div>
     <fieldset class="form-group">
         <label for="inputDescription">Description</label>
         <form:textarea class="form-control" id="inputDescription" name="description"
                        placeholder="Write a few words about this query" path="description"/>
-        <small><form:errors path="description" cssClass="errormsg"/></small>
+        <small><form:errors path="description" cssClass="error-msg"/></small>
     </fieldset>
     <button id="add-new-query-button" type="submit" class="btn btn-success">Add query</button>
     <button id="save-query-button" type="submit" class="btn btn-success">Save</button>

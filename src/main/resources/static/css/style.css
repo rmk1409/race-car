@@ -12,7 +12,7 @@ body {
     opacity: 0.9;
 }
 
-#add-new-query-form small {
+.error-msg {
     color: #41e80a;
 }
 
