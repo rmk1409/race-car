@@ -21,8 +21,8 @@ public class Query {
     @Id
     @GeneratedValue
     int id;
-    @Column(updatable = false)
     @CreationTimestamp
+    @Column(updatable = false)
     Date createdDate;
     @UpdateTimestamp
     Date updatedDate;
@@ -32,8 +32,8 @@ public class Query {
     @NotBlank(message = "Description is mandatory")
     String description;
     @Size(max = 1000)
-    @Column(unique = true)
     @NotBlank(message = "Query is mandatory")
+    @Column(unique = true)
     String href;
     @ManyToOne
     SourceSite sourceSite;
