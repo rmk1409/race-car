@@ -22,6 +22,7 @@ public class QueryController {
 
     /**
      * It will trim all input strings
+     *
      * @param binder
      */
     @InitBinder
@@ -43,6 +44,7 @@ public class QueryController {
         String view;
         log.info("Adding or updating a query -> {}", query);
         if (result.hasErrors()) {
+            log.error("There are invalid data from form -> {}", result);
             view = "queries";
         } else {
             this.service.save(query);
