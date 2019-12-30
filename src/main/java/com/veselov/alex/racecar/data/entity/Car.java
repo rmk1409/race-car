@@ -10,7 +10,6 @@ import javax.persistence.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = {"sourceSite"})
 @Entity
 public class Car {
     @Id
@@ -25,4 +24,13 @@ public class Car {
     Integer year;
     @ManyToOne
     SourceSite sourceSite;
+
+    @Override
+    public String toString() {
+        return "*Модель:* " + name +
+                "\n*Описание:* " + description +
+                "\n*Ссылка:* " + href +
+                "\n*Цена:* " + price + " $" +
+                "\n*Год:* " + year;
+    }
 }

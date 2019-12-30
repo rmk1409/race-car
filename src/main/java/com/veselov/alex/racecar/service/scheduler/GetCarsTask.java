@@ -5,14 +5,20 @@ import com.veselov.alex.racecar.data.dao.QueryRepository;
 import com.veselov.alex.racecar.data.entity.Car;
 import com.veselov.alex.racecar.data.entity.Query;
 import com.veselov.alex.racecar.service.parser.CarsAvByParser;
+import com.veselov.alex.racecar.service.telegram.Bot;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -26,8 +32,10 @@ public class GetCarsTask {
     QueryRepository queryRepository;
     @Autowired
     CarsAvByParser carsAvByParser;
+    @Autowired
+    Bot bot;
 
-    @Scheduled(cron = "0 0/1 * * * *")
+    @Scheduled(cron = "0 0/5 * * * *")
     public void getCars() {
         log.info("Scheduler is working, getting cars");
         Set<String> queries = getQueries();
@@ -36,6 +44,21 @@ public class GetCarsTask {
         log.info("Unique cars({}) -> {}", cars.size(), cars);
         this.autoRepository.saveAll(cars.values());
         carCache.putAll(cars);
+        this.sendToTelegram(cars);
+    }
+
+    private void sendToTelegram(Map<String, Car> cars) {
+        try {
+            log.info("Send cars to Telegram");
+            this.bot.execute(new SendMessage(this.bot.getChatId(), "Send cars to Telegram"));
+            for (Map.Entry<String, Car> currentCar : cars.entrySet()) {
+                SendMessage msg = new SendMessage(this.bot.getChatId(), currentCar.getValue().toString());
+                msg.enableMarkdown(true);
+                this.bot.execute(msg);
+            }
+        } catch (TelegramApiException e) {
+            log.error("There is an error -> {}, {}", e, e.getMessage());
+        }
     }
 
     private void removeDuplicates(Map<String, Car> cars) {
