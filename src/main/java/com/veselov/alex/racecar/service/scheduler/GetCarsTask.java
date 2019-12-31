@@ -70,7 +70,7 @@ public class GetCarsTask {
                 .map(i -> this.carsAvByParser.parseSite(i))
                 .flatMap(List::stream)
                 .collect(Collectors.toMap(Car::getHref, i -> i));
-        log.info("All cars({}) -> {}", result.size(), result);
+        log.info("All cars({}) -> {}", result.size(), result.values());
         return result;
     }
 

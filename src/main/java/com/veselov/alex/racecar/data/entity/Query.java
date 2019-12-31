@@ -36,6 +36,7 @@ public class Query {
     @CheckSite
     @Column(unique = true, length = 1000)
     String href;
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @ManyToOne
+    @JoinColumn(name = "source_site_id")
     SourceSite sourceSite;
 }

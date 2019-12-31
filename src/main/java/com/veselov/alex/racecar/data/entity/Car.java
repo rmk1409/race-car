@@ -22,12 +22,13 @@ public class Car {
     String href;
     Integer price;
     Integer year;
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @ManyToOne
+    @JoinColumn(name = "source_site_id")
     SourceSite sourceSite;
 
     @Override
     public String toString() {
-        return "*Модель:* " + name +
+        return "\n*Модель:* " + name +
                 "\n*Описание:* " + description +
                 "\n*Ссылка:* " + href +
                 "\n*Цена:* " + price + " $" +

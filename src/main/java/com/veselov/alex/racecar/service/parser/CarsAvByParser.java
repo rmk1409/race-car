@@ -1,5 +1,6 @@
 package com.veselov.alex.racecar.service.parser;
 
+import com.veselov.alex.racecar.data.dao.SourceSiteRepository;
 import com.veselov.alex.racecar.data.entity.Car;
 import com.veselov.alex.racecar.data.entity.SourceSite;
 import lombok.extern.slf4j.Slf4j;
@@ -7,6 +8,7 @@ import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -19,6 +21,10 @@ import java.util.List;
 @Slf4j
 @Service
 public class CarsAvByParser {
+
+    @Autowired
+    private SourceSiteRepository repository;
+
     /**
      * It parses query and it finds cars.
      *
@@ -73,6 +79,7 @@ public class CarsAvByParser {
      */
     private void handlePagination(String startHRef, List<Car> cars, Document document) throws IOException {
         int pageQuantity = getPageQuantity(startHRef);
+        SourceSite sourceSite = this.repository.findById(1001).get();
         for (int i = 1; i <= pageQuantity; i++) {
             Elements select = document.select(".listing-item");
             select.forEach(car -> {
@@ -83,7 +90,6 @@ public class CarsAvByParser {
                 String link = body.select(".listing-item-title a").attr("href");
                 Integer price = Integer.parseInt(body.select(".listing-item-price small").text().replaceAll("\\s", ""));
                 Integer year = Integer.parseInt(body.select(".listing-item-desc span").text().substring(0, 4));
-                SourceSite sourceSite = SourceSite.builder().id(1001).build();
                 cars.add(new Car(0, imgSrc, name, description, link, price, year, sourceSite));
             });
             document = Jsoup.connect(startHRef.replace("?", String.format("/page/%d?", i + 1))).get();
