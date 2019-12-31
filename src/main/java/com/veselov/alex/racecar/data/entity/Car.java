@@ -22,7 +22,7 @@ public class Car {
     String href;
     Integer price;
     Integer year;
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     SourceSite sourceSite;
 
     @Override

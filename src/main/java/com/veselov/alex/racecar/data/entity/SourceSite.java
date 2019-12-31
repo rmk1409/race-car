@@ -3,10 +3,8 @@ package com.veselov.alex.racecar.data.entity;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -22,8 +20,24 @@ public class SourceSite {
     @GeneratedValue
     int id;
     String hostName;
-    @OneToMany(mappedBy = "sourceSite")
+    @OneToMany(mappedBy = "sourceSite", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     List<Car> cars;
-    @OneToMany(mappedBy = "sourceSite")
+    @OneToMany(mappedBy = "sourceSite", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     List<Query> queries;
+
+    public void addCar(Car car) {
+        if (this.cars == null) {
+            this.cars = new ArrayList<>();
+        }
+        this.cars.add(car);
+        car.setSourceSite(this);
+    }
+
+    public void addQuery(Query query) {
+        if (this.queries == null) {
+            this.queries = new ArrayList<>();
+        }
+        this.queries.add(query);
+        query.setSourceSite(this);
+    }
 }
