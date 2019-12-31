@@ -20,9 +20,9 @@ public class SourceSite {
     @GeneratedValue
     int id;
     String hostName;
-    @OneToMany(mappedBy = "sourceSite")
+    @OneToMany(mappedBy = "sourceSite", cascade = CascadeType.REMOVE)
     List<Car> cars;
-    @OneToMany(mappedBy = "sourceSite")
+    @OneToMany(mappedBy = "sourceSite", cascade = CascadeType.REMOVE)
     List<Query> queries;
 
     public void addCar(Car car) {
