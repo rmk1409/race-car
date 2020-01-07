@@ -3,22 +3,22 @@
 <h4>Add new query</h4>
 <form:form id="add-new-query-form" class="bg-dark text-white" action="/queries" method="post" modelAttribute="query">
     <div class="row">
-        <input type="hidden" id="query-id" name="id" value="0"/>
+        <form:hidden id="query-id" value="0" path="id"/>
         <fieldset class="form-group col">
-            <label for="inputName">Name</label>
+            <form:label for="inputName" path="name">Name</form:label>
             <form:input type="text" class="form-control" id="inputName" name="name"
                         placeholder="Input short name for query" path="name"/>
             <small><form:errors path="name" cssClass="error-msg"/></small>
         </fieldset>
         <fieldset class="form-group col">
-            <label for="inputQuery">Query</label>
+            <form:label for="inputQuery" path="href">Query</form:label>
             <form:input type="text" class="form-control" id="inputQuery" name="href"
                         placeholder="Copy and past your search query" path="href"/>
             <small><form:errors path="href" cssClass="error-msg"/></small>
         </fieldset>
     </div>
     <fieldset class="form-group">
-        <label for="inputDescription">Description</label>
+        <form:label for="inputDescription" path="description">Description</form:label>
         <form:textarea class="form-control" id="inputDescription" name="description"
                        placeholder="Write a few words about this query" path="description"/>
         <small><form:errors path="description" cssClass="error-msg"/></small>
