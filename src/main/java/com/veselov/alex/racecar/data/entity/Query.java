@@ -31,9 +31,9 @@ public class Query {
     String name;
     @NotBlank(message = "Description is mandatory")
     String description;
+    @CheckSite
     @NotBlank(message = "Query is mandatory")
     @URL(message = "Must be a valid URL")
-    @CheckSite
     @Column(unique = true, length = 1000)
     String href;
     @ManyToOne
