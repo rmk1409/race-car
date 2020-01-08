@@ -36,20 +36,18 @@ public class GetCarsTask {
     Bot bot;
 
     @Scheduled(cron = "0 0/5 * * * *")
-    public void getCars() {
-        log.info("Scheduler is working, getting cars");
+    public void getCarsByScheduler() {
         Set<String> queries = getQueries();
         Map<String, Car> cars = getAllCars(queries);
         this.removeDuplicates(cars);
-        log.info("Unique cars({}) -> {}", cars.size(), cars);
+        log.info("Unique cars({}) -> \n{}", cars.size(), cars);
         this.autoRepository.saveAll(cars.values());
         carCache.putAll(cars);
-        this.sendToTelegram(cars);
+        this.sendCarsToTelegram(cars);
     }
 
-    private void sendToTelegram(Map<String, Car> cars) {
+    private void sendCarsToTelegram(Map<String, Car> cars) {
         try {
-            log.info("Send cars to Telegram");
             this.bot.execute(new SendMessage(this.bot.getChatId(), "Send cars to Telegram"));
             for (Map.Entry<String, Car> currentCar : cars.entrySet()) {
                 SendMessage msg = new SendMessage(this.bot.getChatId(), currentCar.getValue().toString());

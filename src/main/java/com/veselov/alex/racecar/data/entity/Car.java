@@ -28,7 +28,7 @@ public class Car {
 
     @Override
     public String toString() {
-        return "\n*Модель:* " + name +
+        return "*Модель:* " + name +
                 "\n*Описание:* " + description +
                 "\n*Ссылка:* " + href +
                 "\n*Цена:* " + price + " $" +

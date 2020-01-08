@@ -51,10 +51,9 @@ public class CarsAvByParser {
      * @param href
      * @return
      */
-    public int getCarQuantity(String href) {
+    public int getCarQuantityFromPage(String href) {
         int result = 0;
         try {
-            log.info("Will parse this url -> {}", href);
             result = Integer.parseInt(
                     Jsoup.connect(href)
                             .get()
@@ -104,6 +103,6 @@ public class CarsAvByParser {
      */
     private int getPageQuantity(String href) {
         final double shownCarsOnOnePage = 25.0;
-        return (int) Math.ceil(this.getCarQuantity(href) / shownCarsOnOnePage);
+        return (int) Math.ceil(this.getCarQuantityFromPage(href) / shownCarsOnOnePage);
     }
 }

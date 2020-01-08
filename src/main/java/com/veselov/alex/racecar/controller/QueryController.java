@@ -31,8 +31,7 @@ public class QueryController {
     }
 
     @GetMapping("/queries")
-    public String showQueries(Model model) {
-        log.info("Finding all queries");
+    public String showAllQueries(Model model) {
         List<Query> queries = this.service.findAll();
         model.addAttribute("queries", queries);
         model.addAttribute("query", new Query());
@@ -40,9 +39,8 @@ public class QueryController {
     }
 
     @PostMapping("/queries")
-    public String addQueries(@Valid @ModelAttribute("query") Query query, BindingResult result) {
+    public String addOrUpdateQuery(@Valid @ModelAttribute("query") Query query, BindingResult result) {
         String view;
-        log.info("Adding or updating a query -> {}", query);
         if (result.hasErrors()) {
             log.error("There are invalid data from form -> {}", result);
             view = "queries";
@@ -54,8 +52,7 @@ public class QueryController {
     }
 
     @GetMapping("/delete_query/{id}")
-    public String deleteQuery(@PathVariable int id) {
-        log.info("Deleting the query with -> id({})", id);
+    public String deleteQueryById(@PathVariable int id) {
         this.service.deleteById(id);
         return "redirect:/queries";
     }
