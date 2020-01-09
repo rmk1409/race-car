@@ -48,14 +48,14 @@
                 <td><fmt:formatDate pattern="dd.MM.yyyy, HH:mm" value="${query.createdDate}"/></td>
                 <td><fmt:formatDate pattern="dd.MM.yyyy, HH:mm" value="${query.updatedDate}"/></td>
                 <td>
-                    <form action="/find" class="look-up-form">
+                    <form action="${pageContext.request.contextPath}/find" class="look-up-form">
                         <input name="query" type="hidden" value="${URLDecoder.decode(query.href, 'UTF-8')}">
                         <button type="submit" class="btn btn-success btn-sm">Look up</button>
                     </form>
                     |
                     <button class="edit-button btn btn-primary btn-sm">Edit</button>
                     |
-                    <a href="/delete_query/${query.id}" class="btn btn-danger btn-sm">Delete</a>
+                    <a href="${pageContext.request.contextPath}/delete_query/${query.id}" class="btn btn-danger btn-sm">Delete</a>
                 </td>
             </tr>
         </c:forEach>
