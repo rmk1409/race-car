@@ -32,7 +32,7 @@ public class QueryController {
 
     @GetMapping("/queries")
     public String showAllQueries(Model model) {
-        List<Query> queries = this.service.findAll();
+        List<Query> queries = this.service.findAllEncoded();
         model.addAttribute("queries", queries);
         model.addAttribute("query", new Query());
         return "queries";
@@ -45,6 +45,7 @@ public class QueryController {
             log.error("There are invalid data from form -> {}", result);
             view = "queries";
         } else {
+            log.info("Update query ({}) -> {}", query.getId(), query);
             this.service.save(query);
             view = "redirect:/queries";
         }

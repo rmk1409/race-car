@@ -1,10 +1,10 @@
 package com.veselov.alex.racecar.service.scheduler;
 
-import com.veselov.alex.racecar.data.dao.AutoRepository;
-import com.veselov.alex.racecar.data.dao.QueryRepository;
 import com.veselov.alex.racecar.data.entity.Car;
 import com.veselov.alex.racecar.data.entity.Query;
-import com.veselov.alex.racecar.service.parser.CarsAvByParser;
+import com.veselov.alex.racecar.service.dbservice.CarService;
+import com.veselov.alex.racecar.service.dbservice.QueryService;
+import com.veselov.alex.racecar.service.parser.SiteParser;
 import com.veselov.alex.racecar.service.telegram.Bot;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
@@ -27,25 +27,58 @@ import java.util.stream.Collectors;
 public class GetCarsTask {
     Map<String, Car> carCache = new HashMap<>();
     @Autowired
-    AutoRepository autoRepository;
+    CarService carService;
     @Autowired
-    QueryRepository queryRepository;
+    QueryService queryService;
     @Autowired
-    CarsAvByParser carsAvByParser;
+    SiteParser carsAvBySiteParser;
     @Autowired
     Bot bot;
 
+    /**
+     * Every 5 min parses all queries from DB, find cars by these queries.
+     * After that it puts it in local cache and it sends found cars to telegram chats.
+     */
     @Scheduled(cron = "0 0/5 * * * *")
     public void getCarsByScheduler() {
-        Set<String> queries = getQueries();
-        Map<String, Car> cars = getAllCars(queries);
+        Set<String> queries = this.getHrefSetFromQueries();
+        Map<String, Car> cars = this.getAllCars(queries);
         this.removeDuplicates(cars);
         log.info("Unique cars({}) -> \n{}", cars.size(), cars);
-        this.autoRepository.saveAll(cars.values());
-        carCache.putAll(cars);
+        this.carService.saveAll(cars.values());
+        this.carCache.putAll(cars);
         this.sendCarsToTelegram(cars);
     }
 
+    private Set<String> getHrefSetFromQueries() {
+        Set<String> result = this.queryService
+                .findAll()
+                .stream()
+                .map(Query::getHref)
+                .collect(Collectors.toSet());
+        log.info("All queries ({}) -> {}", result.size(), result);
+        return result;
+    }
+
+    private Map<String, Car> getAllCars(Set<String> queries) {
+        Map<String, Car> result = queries.stream()
+                .map(i -> this.carsAvBySiteParser.parseSite(i))
+                .flatMap(List::stream)
+                .collect(Collectors.toMap(Car::getHref, i -> i));
+        log.info("All cars({}) -> {}", result.size(), result.values());
+        return result;
+    }
+
+    private void removeDuplicates(Map<String, Car> cars) {
+        cars.keySet()
+                .removeAll(carCache.keySet());
+    }
+
+    /**
+     * It sends cars to telegram chats.
+     *
+     * @param cars
+     */
     private void sendCarsToTelegram(Map<String, Car> cars) {
         try {
             this.bot.execute(new SendMessage(this.bot.getChatId(), "Send cars to Telegram"));
@@ -57,28 +90,5 @@ public class GetCarsTask {
         } catch (TelegramApiException e) {
             log.error("There is an error -> {}, {}", e, e.getMessage());
         }
-    }
-
-    private void removeDuplicates(Map<String, Car> cars) {
-        cars.keySet().removeAll(carCache.keySet());
-    }
-
-    private Map<String, Car> getAllCars(Set<String> queries) {
-        Map<String, Car> result = queries.stream()
-                .map(i -> this.carsAvByParser.parseSite(i))
-                .flatMap(List::stream)
-                .collect(Collectors.toMap(Car::getHref, i -> i));
-        log.info("All cars({}) -> {}", result.size(), result.values());
-        return result;
-    }
-
-    private Set<String> getQueries() {
-        Set<String> result = this.queryRepository
-                .findAll()
-                .stream()
-                .map(Query::getHref)
-                .collect(Collectors.toSet());
-        log.info("All queries ({}) -> {}", result.size(), result);
-        return result;
     }
 }

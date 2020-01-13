@@ -28,10 +28,10 @@ public class Car {
 
     @Override
     public String toString() {
-        return "*Модель:* " + name +
-                "\n*Описание:* " + description +
-                "\n*Ссылка:* " + href +
-                "\n*Цена:* " + price + " $" +
-                "\n*Год:* " + year;
+        return String.format("*Модель:* %s"
+                + "\n*Описание:* %s"
+                + "\n*Ссылка:* %s"
+                + "\n*Цена:* %d $"
+                + "\n*Год:* %d", name, description, href, price, year);
     }
 }
