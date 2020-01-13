@@ -14,3 +14,4 @@
 - fix pagination
 - maybe add more ajax
 - add sorting table feature
+- add site parsing for the 1st run and for within a day
