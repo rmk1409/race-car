@@ -14,8 +14,7 @@ public class CheckSiteConstraintValidator implements ConstraintValidator<CheckSi
 
     @Override
     public boolean isValid(String query, ConstraintValidatorContext context) {
-        return query != null
-                && Arrays.stream(this.sites)
+        return query != null && Arrays.stream(this.sites)
                 .anyMatch(query::startsWith);
     }
 }

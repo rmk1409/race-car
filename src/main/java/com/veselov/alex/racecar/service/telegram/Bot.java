@@ -29,30 +29,30 @@ public class Bot extends TelegramLongPollingBot {
     String chatId;
 
     /**
-     * Метод для приема сообщений.
+     * It works when a new message is came.
      *
-     * @param update Содержит сообщение от пользователя.
+     * @param update user message data
      */
     @Override
     public void onUpdateReceived(Update update) {
         String message = update.getMessage().getText();
-        sendMsg(update.getMessage().getChatId().toString(), message);
+        this.sendMsg(update.getMessage().getChatId().toString(), message);
     }
 
     /**
-     * Метод для настройки сообщения и его отправки.
+     * It sends messages.
      *
-     * @param chatId id чата
-     * @param s      Строка, которую необходимот отправить в качестве сообщения.
+     * @param chatId
+     * @param message
      */
-    public synchronized void sendMsg(String chatId, String s) {
+    public synchronized void sendMsg(String chatId, String message) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.enableMarkdown(true);
-        System.out.println(chatId);
+        log.info("Telegram bot sends to chat -> {}, this message -> {}", chatId, message);
         sendMessage.setChatId(this.chatId);
-        sendMessage.setText(s);
+        sendMessage.setText(message);
         try {
-            execute(sendMessage);
+            super.execute(sendMessage);
         } catch (TelegramApiException e) {
             log.error("Exception: {}, {}", e.toString(), e.getMessage());
         }

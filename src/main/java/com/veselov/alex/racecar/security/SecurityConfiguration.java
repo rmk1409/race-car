@@ -16,7 +16,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authenticated()
                 .and()
                 .formLogin();
-
         http.csrf()
                 .ignoringAntMatchers("/h2-console/**");
         http.headers()
