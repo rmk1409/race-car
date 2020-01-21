@@ -1,4 +1,9 @@
 #Backlog
+##Code review by Alex
+- Tiles
+- <%--@elvariable id="dateOfCreation" type="java.util.Date"--%>
+- @NotBlank(errorCode = ...
+- Map<String, Car> carCache = new ConcurrentHashMap<>();
 ##Business logic
 - fix chadId process
 - integrate Telegram bot with channel
